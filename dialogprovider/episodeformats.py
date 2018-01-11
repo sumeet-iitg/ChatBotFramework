@@ -1,7 +1,10 @@
 def create_episodes(episode_data, dataformat):
     parsedEpisodes = []
     for episode in episode_data:
-        if dataformat == "JsonTuring":
+        if dataformat == "JsonBasic":
+            jsonBasicEpisode = JsonBasicEpisode(episode)
+            parsedEpisodes.append(jsonBasicEpisode)
+        elif dataformat == "JsonTuring":
             jsonTuringEpisode = JsonTuringEpisode(episode)
             parsedEpisodes.append(jsonTuringEpisode)
         else:
@@ -10,8 +13,19 @@ def create_episodes(episode_data, dataformat):
 
 class Episode(object):
     def __init__(self, episodeDetails):
-        if 'episodeId' in episodeDetails:
-            self.episodeId = episodeDetails['episodeId']
+        if not hasattr(episodeDetails, 'episodeId') and \
+            hasattr(episodeDetails, 'thread') and \
+            hasattr(episodeDetails, 'timestamp'):
+            raise AttributeError("EpisodeId or \
+                other mandatory parameter are missing in Episode Details.")
+        self.episodeId = episodeDetails['episodeId']
+        self.timestamp = episodeDetails['timestamp']
+
+class JsonBasicEpisode(Episode):
+    def __init__(self, episodeDetails):
+        super().__init__(self, episodeDetails)
+        for thread in episodeDetails['thread']:
+            self.thread.append(Thread(thread))
 
 class JsonTuringEpisode(Episode):
     def __init__(self, episodeDetails):
@@ -27,8 +41,8 @@ class JsonTuringEpisode(Episode):
                 self.users.append(User(userDetails))
         if 'thread' in episodeDetails:
             self.thread = []
-            for thread in episodeDetails['thread']:
-                self.thread.append(Thread(thread))
+            for utterance in episodeDetails['thread']:
+                self.thread.append(Utterance(utterance))
         if 'context' in episodeDetails:
             self.context = episodeDetails['context']
 
@@ -46,7 +60,11 @@ class User(object):
         self.userType = properties['userType']
         self.id = properties['id']
 
-class Thread(object):
+class Utterance(object):
     def __init__(self, properties):
+        if not hasattr(properties, 'userId') and \
+            hasattr(properties, 'text'):
+            raise AttributeError("UserId or \
+                other mandatory parameter are missing in Utterance Details.")
         self.userId = properties['userId']
         self.text = properties['text']
