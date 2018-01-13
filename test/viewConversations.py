@@ -1,4 +1,4 @@
-from dataloaders import JsonDataLoader
+from ChatBotFramework.dialoginfra.dataloaders import JsonDataLoader
 
 #TODO: add logic to take args from command
 def main():

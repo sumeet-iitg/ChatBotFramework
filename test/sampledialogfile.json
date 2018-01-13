@@ -1,0 +1,14 @@
+[
+  {
+    "episodeId":"123456",
+    "state": "GRT",
+    "timestamp": "1355563265.81",
+    "thread":
+    [
+      {"userId":"human", "text":"Hi There!"},
+      {"userId":"bot", "text":"Hello! My name is Alice. What's yours?"},
+      {"userId":"human", "text":"Hi Alice! My name is Bob."},
+      {"userId":"bot", "text":"Nice to meet you Bob."}
+    ]
+  }
+]
