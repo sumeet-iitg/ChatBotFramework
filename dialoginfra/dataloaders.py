@@ -13,7 +13,7 @@
 """
 
 import json as jp
-from episodeformats import Episode, create_episodes
+from .episodeformats import Episode, create_episodes
 
 class DataLoader(object):
     def __init__(self, filepath, datafmt):

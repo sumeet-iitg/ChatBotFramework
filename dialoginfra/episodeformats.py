@@ -20,12 +20,13 @@ class Episode(object):
                 other mandatory parameter are missing in Episode Details.")
         self.episodeId = episodeDetails['episodeId']
         self.timestamp = episodeDetails['timestamp']
+        self.thread = []
 
 class JsonBasicEpisode(Episode):
     def __init__(self, episodeDetails):
-        super().__init__(self, episodeDetails)
-        for thread in episodeDetails['thread']:
-            self.thread.append(Thread(thread))
+        super().__init__(episodeDetails)
+        for utterance in episodeDetails['thread']:
+            self.thread.append(Utterance(utterance))
 
 class JsonTuringEpisode(Episode):
     def __init__(self, episodeDetails):
