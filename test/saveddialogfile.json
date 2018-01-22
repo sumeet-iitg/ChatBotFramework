@@ -20,8 +20,76 @@
         "text": "Nice to meet you Bob."
       },
       {
-        "userId": "bot",
-        "text": "How may I assist you"
+        "userId": "Alice",
+        "text": "Hi I am Alice! How may I assit you?"
+      },
+      {
+        "userId": "Bob",
+        "text": "hello!"
+      },
+      {
+        "userId": "Alice",
+        "text": "What do you think?"
+      },
+      {
+        "userId": "Bob",
+        "text": "About what?"
+      },
+      {
+        "userId": "Alice",
+        "text": "I am sad :("
+      },
+      {
+        "userId": "Bob",
+        "text": "Ohh!"
+      },
+      {
+        "userId": "Alice",
+        "text": "What do you think?"
+      },
+      {
+        "userId": "Bob",
+        "text": "I donno why..."
+      },
+      {
+        "userId": "Alice",
+        "text": "I am sad :("
+      },
+      {
+        "userId": "Bob",
+        "text": "I see..."
+      },
+      {
+        "userId": "Alice",
+        "text": "What do you think?"
+      },
+      {
+        "userId": "Bob",
+        "text": "Hooah"
+      },
+      {
+        "userId": "Alice",
+        "text": "How should I know? I am dumb!"
+      },
+      {
+        "userId": "Bob",
+        "text": "Whatever!"
+      },
+      {
+        "userId": "Alice",
+        "text": "I am happy :)"
+      },
+      {
+        "userId": "Bob",
+        "text": "Okay."
+      },
+      {
+        "userId": "Alice",
+        "text": "What do you think?"
+      },
+      {
+        "userId": "Bob",
+        "text": "exit"
       }
     ]
   }
