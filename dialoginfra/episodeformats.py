@@ -13,13 +13,10 @@ def create_episodes(episode_data, dataformat):
 
 class Episode(object):
     def __init__(self, episodeDetails):
-        if not hasattr(episodeDetails, 'episodeId') and \
-            hasattr(episodeDetails, 'thread') and \
-            hasattr(episodeDetails, 'timestamp'):
-            raise AttributeError("EpisodeId or \
-                other mandatory parameter are missing in Episode Details.")
-        self.episodeId = episodeDetails['episodeId']
-        self.timestamp = episodeDetails['timestamp']
+        if not ('thread' in episodeDetails and
+                'participantData' in episodeDetails):
+            raise AttributeError("Mandatory parameters missing in Episode Details.")
+        self.participantData = ParticipantData(episodeDetails['participantData'])
         self.thread = []
 
 class JsonBasicEpisode(Episode):
@@ -27,6 +24,13 @@ class JsonBasicEpisode(Episode):
         super().__init__(episodeDetails)
         for utterance in episodeDetails['thread']:
             self.thread.append(Utterance(utterance))
+
+class JsonHangoutEpisodes(Episode):
+    def __init__(self, episodeDetails):
+        super().__init__(episodeDetails)
+        self.type = episodeDetails['type']
+        for utterance in episodeDetails['thread']:
+            self.thread.append(HangoutUtterance(utterance))
 
 class JsonTuringEpisode(Episode):
     def __init__(self, episodeDetails):
@@ -63,9 +67,28 @@ class User(object):
 
 class Utterance(object):
     def __init__(self, properties):
-        if not hasattr(properties, 'userId') and \
-            hasattr(properties, 'text'):
+        if not ('userId' in properties and
+            'text' in properties and
+            'timestamp' in properties):
             raise AttributeError("UserId or \
                 other mandatory parameter are missing in Utterance Details.")
-        self.userId = properties['userId']
-        self.text = properties['text']
+        self.utterance = {'userId':properties['userId'],
+                          'text':properties['text'],
+                          'timestamp':properties['timestamp']}
+
+class HangoutUtterance(Utterance):
+    def __init__(self,properties):
+        super.__init__(properties)
+        if not 'utteranceId' in properties:
+            raise AttributeError("HangoutUtterance mandatory parameters missing!.")
+        self.utterance['utteranceId'] = properties['utteranceId']
+
+class ParticipantData(object):
+    def __init__(self, participantData):
+        self.participantDetails = []
+        for participantDetails in participantData:
+            if not ('userId' in participantDetails and
+                    'userName' in participantDetails):
+                raise AttributeError("Mandatory parameters missing in Participant Data.")
+            self.participantDetails.append({'userId':participantDetails['userId'],
+                                            'userName': participantDetails['userName']})

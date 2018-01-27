@@ -1,96 +1,108 @@
-[
-  {
-    "episodeId": "123456",
-    "timestamp": "1355563265.81",
-    "thread": [
-      {
-        "userId": "human",
-        "text": "Hi There!"
+{
+  "state": "NA",
+  "platformId": "CLI",
+  "sessionId": 9999,
+  "activeLogFilePath": "C:/Users/Sumeet Singh/PycharmProjects/ChatBotFramework/ChatBotFramework/test/saveddialogfile.json",
+  "episodes": [
+    {
+      "participantData": {
+        "participantDetails": [
+          {
+            "userId": "human",
+            "userName": "Bob"
+          },
+          {
+            "userId": "bot",
+            "userName": "Alice"
+          }
+        ]
       },
-      {
-        "userId": "bot",
-        "text": "Hello! My name is Alice. What's yours?"
-      },
-      {
-        "userId": "human",
-        "text": "Hi Alice! My name is Bob."
-      },
-      {
-        "userId": "bot",
-        "text": "Nice to meet you Bob."
-      },
-      {
-        "userId": "Alice",
-        "text": "Hi I am Alice! How may I assit you?"
-      },
-      {
-        "userId": "Bob",
-        "text": "hello!"
-      },
-      {
-        "userId": "Alice",
-        "text": "What do you think?"
-      },
-      {
-        "userId": "Bob",
-        "text": "About what?"
-      },
-      {
-        "userId": "Alice",
-        "text": "I am sad :("
-      },
-      {
-        "userId": "Bob",
-        "text": "Ohh!"
-      },
-      {
-        "userId": "Alice",
-        "text": "What do you think?"
-      },
-      {
-        "userId": "Bob",
-        "text": "I donno why..."
-      },
-      {
-        "userId": "Alice",
-        "text": "I am sad :("
-      },
-      {
-        "userId": "Bob",
-        "text": "I see..."
-      },
-      {
-        "userId": "Alice",
-        "text": "What do you think?"
-      },
-      {
-        "userId": "Bob",
-        "text": "Hooah"
-      },
-      {
-        "userId": "Alice",
-        "text": "How should I know? I am dumb!"
-      },
-      {
-        "userId": "Bob",
-        "text": "Whatever!"
-      },
-      {
-        "userId": "Alice",
-        "text": "I am happy :)"
-      },
-      {
-        "userId": "Bob",
-        "text": "Okay."
-      },
-      {
-        "userId": "Alice",
-        "text": "What do you think?"
-      },
-      {
-        "userId": "Bob",
-        "text": "exit"
-      }
-    ]
-  }
-]
+      "thread": [
+        {
+          "utterance": {
+            "userId": "human",
+            "text": "Hi There!",
+            "timestamp": "1355563265.81"
+          }
+        },
+        {
+          "utterance": {
+            "userId": "bot",
+            "text": "Hello! My name is Alice. What's yours?",
+            "timestamp": "1355563265.81"
+          }
+        },
+        {
+          "utterance": {
+            "userId": "human",
+            "text": "Hi Alice! My name is Bob.",
+            "timestamp": "1355563265.81"
+          }
+        },
+        {
+          "utterance": {
+            "userId": "bot",
+            "text": "Nice to meet you Bob.",
+            "timestamp": "1355563265.81"
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Alice",
+            "text": "Hi I am Alice! How may I assit you?",
+            "timestamp": 1517090894.0340264
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Bob",
+            "text": "Hi Alice.",
+            "timestamp": 1517090894.0340264
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Alice",
+            "text": "How are you?",
+            "timestamp": 1517090905.2837343
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Bob",
+            "text": "I am good.",
+            "timestamp": 1517090905.2837343
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Alice",
+            "text": "I am sad :(",
+            "timestamp": 1517090910.9424973
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Bob",
+            "text": "Ohh! Exit",
+            "timestamp": 1517090910.9424973
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Alice",
+            "text": "How should I know? I am dumb!",
+            "timestamp": 1517090916.0822566
+          }
+        },
+        {
+          "utterance": {
+            "userId": "Bob",
+            "text": "exit",
+            "timestamp": 1517090916.0822566
+          }
+        }
+      ]
+    }
+  ]
+}

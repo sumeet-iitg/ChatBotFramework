@@ -3,6 +3,7 @@ from ChatBotFramework.dialoginfra.episodeformats import JsonBasicEpisode
 import json
 from sys import argv
 import random
+import time
 #TODO: add logic to take args from command
 
 def getopts(argv):
@@ -25,9 +26,10 @@ def main(args):
     dialogProvider.InitializeDialogProvider(savedLogFile)
     turn = 0
     prevResponseIndex = -1
-    botResponses = ["What do you think?", "How should I know? I am dumb!", "I am sad :(", "I am happy :)"]
+    botResponses = ["How are you?", "How should I know? I am dumb!", "I am sad :(", "I am happy :)"]
     while True:
-        newUtterance ={'userId':"", 'text':""}
+        timestamp = time.time()
+        newUtterance ={'userId':"", 'text':"", "timestamp": timestamp}
         if turn%2 > 0:
             utteranceText = input(userId + ": ")
             newUtterance['userId'] = userId

@@ -16,11 +16,11 @@ class DialogProvider(object):
         self.sessionId = sessionId
         self.activeLogFilePath = activeLogFilePath
 
-    def InitializeDialogProvider(self, savedLogFilePath):
-        self.__processLogFile(savedLogFilePath)
+    def InitializeDialogProvider(self, savedLogFilePath, fmt = "JsonBasic"):
+        self.__processLogFile(savedLogFilePath, fmt)
 
-    def __processLogFile(self, logFilePath):
-        jsonLoader = JsonDataLoader(logFilePath, "JsonBasic")
+    def __processLogFile(self, logFilePath, fmt):
+        jsonLoader = JsonDataLoader(logFilePath, fmt)
         self.episodes = jsonLoader.load()
         # copy the state information from the episode
         # TODO: build state into utterances rather than episodes
@@ -35,4 +35,4 @@ class DialogProvider(object):
 
     def PersistJson(self):
         with open(self.activeLogFilePath, 'w', encoding='utf-8') as jsonFp:
-            json.dump(self.episodes, jsonFp, cls=CustomEncoder, indent=2)
+            json.dump(self, jsonFp, cls=CustomEncoder, indent=2)
