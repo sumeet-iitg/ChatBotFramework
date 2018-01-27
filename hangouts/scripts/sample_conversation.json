@@ -1,0 +1,366 @@
+response_header {
+  status: RESPONSE_STATUS_OK
+  debug_url: ""
+  current_server_time: 1517014851955000
+}
+conversation_state {
+  conversation_id {
+    id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+  }
+  conversation {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    type: CONVERSATION_TYPE_ONE_TO_ONE
+    self_conversation_state {
+      self_read_state {
+        participant_id {
+          gaia_id: "104282455995748181466"
+          chat_id: "104282455995748181466"
+        }
+        latest_read_timestamp: 1516479061047087
+      }
+      status: CONVERSATION_STATUS_ACTIVE
+      notification_level: NOTIFICATION_LEVEL_RING
+      view: CONVERSATION_VIEW_INBOX
+      inviter_id {
+        gaia_id: "111593870924483273458"
+        chat_id: "111593870924483273458"
+      }
+      invite_timestamp: 1515265716096000
+      sort_timestamp: 1516479061047087
+      active_timestamp: 1515265716096000
+      delivery_medium_option {
+        delivery_medium {
+          medium_type: DELIVERY_MEDIUM_BABEL
+        }
+        current_default: true
+      }
+    }
+    read_state {
+      participant_id {
+        gaia_id: "111593870924483273458"
+        chat_id: "111593870924483273458"
+      }
+      latest_read_timestamp: 1516479061047087
+    }
+    read_state {
+      participant_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      latest_read_timestamp: 1516479061047087
+    }
+    has_active_hangout: false
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    otr_toggle: OFF_THE_RECORD_TOGGLE_ENABLED
+    current_participant {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    current_participant {
+      gaia_id: "104282455995748181466"
+      chat_id: "104282455995748181466"
+    }
+    participant_data {
+      id {
+        gaia_id: "111593870924483273458"
+        chat_id: "111593870924483273458"
+      }
+      fallback_name: "SUMEET KUMAR Singh"
+      invitation_status: INVITATION_STATUS_ACCEPTED
+      participant_type: PARTICIPANT_TYPE_GAIA
+      new_invitation_status: INVITATION_STATUS_ACCEPTED
+    }
+    participant_data {
+      id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      fallback_name: "sarah.codemixedbot@gmail.com"
+      invitation_status: INVITATION_STATUS_ACCEPTED
+      participant_type: PARTICIPANT_TYPE_GAIA
+      new_invitation_status: INVITATION_STATUS_ACCEPTED
+    }
+    network_type: NETWORK_TYPE_BABEL
+    force_history_state: FORCE_HISTORY_NO
+    group_link_sharing_status: GROUP_LINK_SHARING_STATUS_OFF
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    timestamp: 1515265725515471
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "hi"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8b586s_1KTh"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1515265725515471
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    timestamp: 1515265733597229
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "ping"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8b587riSU2L"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1515265733597229
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    timestamp: 1515265755318958
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "ping"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8b58AWQOc0O"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1515265755318958
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    timestamp: 1515350579057339
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "ping"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8b7exysQo9O"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1515350579057339
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "104282455995748181466"
+      chat_id: "104282455995748181466"
+    }
+    timestamp: 1516478964425112
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "good info about birds!"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+          link_data {
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8beIBKZUIUV"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1516478964425112
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "111593870924483273458"
+      chat_id: "111593870924483273458"
+    }
+    timestamp: 1516478993759164
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "yeah, I really like Blue-jays"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8beIEuj5ZrX"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1516478993759164
+  }
+  event {
+    conversation_id {
+      id: "UgxBf0Gy0qpg0g5CQPd4AaABAagBpYnsAQ"
+    }
+    sender_id {
+      gaia_id: "104282455995748181466"
+      chat_id: "104282455995748181466"
+    }
+    timestamp: 1516479061047087
+    self_event_state {
+      user_id {
+        gaia_id: "104282455995748181466"
+        chat_id: "104282455995748181466"
+      }
+      notification_level: NOTIFICATION_LEVEL_RING
+    }
+    chat_message {
+      message_content {
+        segment {
+          type: SEGMENT_TYPE_TEXT
+          text: "okay!"
+          formatting {
+            bold: false
+            italic: false
+            strikethrough: false
+            underline: false
+          }
+        }
+      }
+    }
+    event_id: "8b585l0CM-J8beIN7Q3wWR"
+    advances_sort_timestamp: true
+    otr_status: OFF_THE_RECORD_STATUS_ON_THE_RECORD
+    medium_type {
+      medium_type: DELIVERY_MEDIUM_BABEL
+    }
+    event_type: EVENT_TYPE_REGULAR_CHAT_MESSAGE
+    event_version: 1516479061047087
+  }
+}
+
+
