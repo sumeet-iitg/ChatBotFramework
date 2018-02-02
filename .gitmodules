@@ -1,0 +1,3 @@
+[submodule "parlAI"]
+	path = parlAI
+	url = https://github.com/sumeet-iitg/parlAI
