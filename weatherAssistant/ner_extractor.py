@@ -5,23 +5,31 @@ This file defines the control mechanism to rank the slots
 from nltk.tag.stanford import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
+from sutime import SUTime
 
 
-basic_intent_types = {"greet":0, "weather_query":1, "unknown":3, "closure":4}
+basic_intent_types = {"greet":0, "weather_query":1, "unknown":3, "closure":4, "cancel":5, "help":6}
 
 class NLUModule:
-    def __init__(self, classifier_path=None, ner_path = None):
+    def __init__(self, classifier_path=None, ner_path = None, sutime_jar_path = None):
         # Change the path according to your system
         if classifier_path is None:
             classifier_path = "C:\stanford_corenlp\stanford-ner-2018-02-27\stanford-ner-2018-02-27\classifiers\english.muc.7class.distsim.crf.ser.gz"
 
         if ner_path is None:
             ner_path = "C:\stanford_corenlp\stanford-ner-2018-02-27\stanford-ner-2018-02-27\stanford-ner.jar"
+
+        if sutime_jar_path is None:
+            sutime_jar_path = "C:\stanford_corenlp\stanford-corenlp-full-2018-02-27\stanford-corenlp-full-2018-02-27"
+
         self.stanford_classifier = classifier_path
         self.stanford_ner_path = ner_path
+        self.sutime_path = sutime_jar_path
 
         # Creating Tagger Object
         self.st = StanfordNERTagger(self.stanford_classifier, self.stanford_ner_path)
+        self.su = SUTime(jars=self.sutime_path, mark_time_ranges=True, include_range=True)
+
         self.weather_terms = ["weather", "climate", "precipitation", "sun", "rain", "cloud","snow", "hot", "humid", "cold", "sunny", "windy","cloudy",
                               "rainy", "snowy", "misty", "foggy", "colder","hotter", "warmer", "pleasant"]
         self.greet_terms= ["hello","hey","howdy","hello","hi", "yo", "yaw"]
@@ -32,19 +40,26 @@ class NLUModule:
     def DiscoverIntentAndEntities(self, text):
         tokenized_text = word_tokenize(text)
         classified_text = self.st.tag(tokenized_text)
+        time_tags = self.su.parse(text)
         # pos_tags = pos_tag(tokenized_text)
-        returnVal = {"intent":3, "entities":{"LOCATION":"", "DATE":"", "HOUR":"", "QUERIES":[]}}
+
+        returnVal = {"intent":3, "entities":{"LOCATION":"", "DATE":"", "TIME":"", "DURATION":"", "QUERIES":[]}}
 
         for word,tag in classified_text:
             if 'LOCATION' in tag:
                 returnVal["entities"]["LOCATION"] += word + " "
-            elif 'DATE' in tag or word in self.date_terms:
-                returnVal["entities"]["DATE"] = word + " "
-            elif 'DATE' in tag or word in self.day_terms:
-                returnVal["entities"]["HOUR"] = word + " "
+            # elif 'DATE' in tag or word in self.date_terms:
+            #     returnVal["entities"]["DATE"] = word + " "
+            # elif 'DATE' in tag or word in self.day_terms:
+            #     returnVal["entities"]["HOUR"] = word + " "
             elif 'O' in tag and word in self.weather_terms:
                 returnVal["entities"]["QUERIES"].append(word)
                 returnVal["intent"] = basic_intent_types["weather_query"]
+
+        if len(time_tags) > 0:
+            for tag in time_tags:
+                typeKey = tag["type"]
+                returnVal["entities"][typeKey] = tag["value"]
 
         if text in self.greet_terms:
                 returnVal["intent"] = basic_intent_types["greet"]
@@ -56,11 +71,12 @@ class NLUModule:
 
         return returnVal
 
-nlu = NLUModule()
-print(nlu.DiscoverIntentAndEntities("How is the weather on Fifth March."))
-print(nlu.DiscoverIntentAndEntities("How is the weather in March."))
-print(nlu.DiscoverIntentAndEntities("What is it like on Tuesday."))
-print(nlu.DiscoverIntentAndEntities("How does it look like tomorrow?"))
+# nlu = NLUModule()
+# print(nlu.DiscoverIntentAndEntities("How is the weather on Fifth March."))
+# print(nlu.DiscoverIntentAndEntities("How is the weather in March."))
+# print(nlu.DiscoverIntentAndEntities("What is it like on Tuesday."))
+# print(nlu.DiscoverIntentAndEntities("How does it look like tomorrow?"))
+
 
 # from nltk import word_tokenize, pos_tag, ne_chunk
 #

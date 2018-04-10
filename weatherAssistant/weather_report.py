@@ -14,7 +14,7 @@ class weather_report:
                       "conditions":{
                                 "general":"The weather %s will be %s"}}
         if api_key is None:
-           self.api_key = "*******"
+           self.api_key = "b09681fb4107467b9563c75a73f1a4a1"
         self.api = Api(self.api_key)
 
     def query_weather(self, location):
@@ -52,15 +52,15 @@ class weather_report:
             date_term = "on " + str(query_time.day) + " " + str(query_time.month)
 
         day_report = self.weather_condition_templates["conditions"]["general"]%(date_term, day_weather["weather"]["description"])
-        day_report += " " + self.weather_condition_templates["hi_lo"]["general"]%(str(day_weather["max_temp"]), str(day_weather["min_temp"]))
-        day_report += " and " + self.weather_condition_templates["precipitation"]["chance"]%(str(day_weather["precip"]))
+        day_report += ". " + self.weather_condition_templates["hi_lo"]["general"]%(str(day_weather["max_temp"]), str(day_weather["min_temp"]))
+        day_report += ". And " + self.weather_condition_templates["precipitation"]["chance"]%(str(day_weather["precip"]))
         hour_report = self.weather_condition_templates["conditions"]["general"]%(hour_term, hour_weather["weather"]["description"])
-        hour_report += " with " + self.weather_condition_templates["hi_lo"]["average"]%(str(hour_weather["temp"]))
-        hour_report += " and " + self.weather_condition_templates["precipitation"]["chance"]%(str(day_weather["precip"]))
+        hour_report += ". With " + self.weather_condition_templates["hi_lo"]["average"]%(str(hour_weather["temp"]))
+        hour_report += ". And " + self.weather_condition_templates["precipitation"]["chance"]%(str(day_weather["precip"]))
 
         return day_report, hour_report
 
 wr = weather_report()
-day_rep, hr_rep = wr.get_weather_report("Pittsburgh", datetime.datetime(2018, 3, 24, 0, 0))
-text_to_speech(day_rep + "..." + hr_rep)
-print(day_rep + "." + hr_rep)
+day_rep, hr_rep = wr.get_weather_report("Washington", datetime.datetime(2018, 4, 10, 0, 0))
+text_to_speech(day_rep + ". " + hr_rep + " .")
+print(day_rep + ". " + hr_rep + " .")
