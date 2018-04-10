@@ -63,17 +63,7 @@ def saveAudioFile(wavData):
     waveFile.close()
 
 GOOGLE_CLOUD_SPEECH_CREDENTIALS = r"""{
-      "type": "service_account",
-      "project_id": "speechrecognition-196601",
-      "private_key_id": "1c683d9cec2c64f073b4c28e2ab38e717d7585ec",
-      "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCwM+cg2fw9WkSE\nyHro0AKBHx4dM9fMXW1mMPOevHMHYJONQoSGv5Lp9AJDqv2dRawEZZ/iQWsJOiWp\nMDl5m9mWzajtopa4kelqGnTbGqFkHlTkckbhibqdN7sLKmmSOC5a//fOIsMdT6Dj\naXhwCsdZSuSZm+0uZYt/vADeERbMZj55CPOWRdV+466aE+/uhoLumjY21AGokOMt\nEXQW/JeOX9m0cI0+rPmd5H0Ezm4RjVQKbGRnNszqZyaqlFj0Z75WdlSJZdHmCWXe\nJILwQwr3wiGBS4/vwaoc96L8JXpH/NnR7jQ8fCl5+JUDgGA8MnToPiJCye6blodE\nKnhSFUXlAgMBAAECggEACGuGhzWbfeQPI6g/5VmxUPHHet5EGO47ANfkgGihd5AI\nJQcxdY34i4j/RbQJWAdhC7m+fO2i24dFjvLwwCywJmpwAOEU4j+Iv6sBfAnm/fWM\nGXmThQoTmpkz7Tnq3xOjtXIHabiUCdXJCqz61iHRumTfjS6cFCxCkQlPIk1/QSeq\nM5ml5UNJNJKZ4LJQg463c48CVYRIWcu5S1vkOowmEc0MgVJnl5kxzg/x6CCilCw6\nZhUFCErnqhEj2rsmGRRF8d2iXLy3PTRnJ3KxppEUf00RxjT0bbnmQ6WM1Qc0iSNu\nO5nvphAmg8N/Edkx5/DWt7wCxkRqVPtVUmE0pPQUuQKBgQDuijLsNBicIkxKLceD\naa0lnvVPnfIQwF3ZuWlSaztkGlac0D2AQ4ZGZoSqG6lzUGcCY48OvylSNcsFuw9B\nLOecovX7iiOs0182qeXRqjs/XuMhWeYujj6BxQS2eJwivPWOCwhEMsQd2glV01MZ\nPN9fBxM7HN2zXevYLguxgMhG7QKBgQC9GZ7fcE2txqDg6hYBpl2QNvs1zfHpizCO\nizRAx38FJlRLTysGxK/Fcczpu02rvqbgBgVG/7UJVGS2iWGW3yfD2S26LhyGO0Jc\ngItcGJUqU7srnmqKIrocQx6Y18+YYN9Ak1MgXmvqXLhZa4q1r/O9PkZt5l9G9YO/\nzlOppIHj2QKBgQDeQ0UJk80uhkLBh4B0cR4VhNScd9YaR7Pq7/k0A5iWQHhdqybz\nAXf21wVcH2Q3fz5MGoosum/9GwRt9YtUNkwlRi6fT2rIWTdJjusF/nEwLfDCnap9\nzKpvbi1i/GS3dYvz61GrggX8rrGuF7dBN9gGCmif1ti4jZX4m4bnwNBcTQKBgHr6\nd4z+XzY9cBD1i5xFEqIgb50dM09b+xcoxrG+TAgQVk+ny+aZ8WnpyYbUDf48fhBB\nOhtjXtwTa3Aexj21IQpIammjZV+SmGTKIFejkRa234nNe6IcVYbdy79A0rxZe7dm\nWHA7l9kRtb5JpyrjpBMVtf3xDVN7hdQundA8sVB5AoGAPjsU3kkFmrBzmjWfJorq\nVJhrpeR1Yyhv0fVbaU+8EBIEuXoljyoqjQsv7RQ9qOB0gi37JAGnQypbhFsEYMuY\nzvUf2an1D0a1P43ut1VI4VK51VYaXJe6A+Bh4jjF8oWbPL87BGZ3ZRS4b2JbIZ48\n7n9IrzL7LeF+YocZjIc1FEE=\n-----END PRIVATE KEY-----\n",
-      "client_email": "starting-account-a11rq0svurk5@speechrecognition-196601.iam.gserviceaccount.com",
-      "client_id": "106288034292686054459",
-      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      "token_uri": "https://accounts.google.com/o/oauth2/token",
-      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/starting-account-a11rq0svurk5%40speechrecognition-196601.iam.gserviceaccount.com"
-    }"""
+         }"""
 
 def speech_to_text():
     r = sr.Recognizer()
