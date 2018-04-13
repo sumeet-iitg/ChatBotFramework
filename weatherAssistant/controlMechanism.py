@@ -9,10 +9,6 @@ import datetime
 import random
 import copy
 
-def locationExtractor(intentAndEntityDict):
-    locationVal = intentAndEntityDict["entities"]["LOCATION"]
-    return locationVal
-
 def timeExtractor(intentAndEntityDict):
     dateVal = intentAndEntityDict["entities"]["DATE"]
     timeVal = intentAndEntityDict["entities"]["TIME"]
@@ -34,12 +30,6 @@ def timeExtractor(intentAndEntityDict):
         queryDate = datetime.datetime(queryDate.year, queryDate.month, queryDate.day, hours)
     return queryDate
 
-def locationValidation(location):
-    return True
-
-def timeValidation():
-    return True
-
 class slot:
     def __init__(self, slotName, slotQuestion):
         self.slotName = slotName
@@ -48,6 +38,26 @@ class slot:
 
     def isValid(self):
         return NotImplementedError
+
+class timeSlot(slot):
+    def __init__(self,slotName=None, slotQuestion=None):
+        slotName = "timeSlot"
+        slotQuestion = "Could you please tell me the date and time for which you would like to know the forecast?"
+        super().__init__(slotName, slotQuestion)
+
+    def isValid(self):
+        # TODO: check that self.slotValue is a valid date-time
+        return True
+
+class locationSlot(slot):
+    def __init__(self, slotName=None, slotQuestion=None):
+        slotName = "locationSlot"
+        slotQuestion = "Please tell me the city name you want to know the forecast for?"
+        super().__init__(slotName, slotQuestion)
+
+    def isValid(self):
+        # TODO: check that self.slotValue is a valid location
+        return True
 
 # Class to represent a form in dialog systems
 # A form has slot names and associated questions
@@ -77,7 +87,6 @@ class form:
                 del self.emptySlots[i]
                 break
 
-
 class dialState:
     def __init__(self, name, nluModule):
         self.name = name
@@ -100,29 +109,13 @@ class ask(dialState):
         super().__init__(name, nluModule)
         self.form = form_obj
 
-    def run(self, input):
-        slot_obj = self.form.getNextEmptySlot()
-        incorrectSlots = []
-        if slot_obj.slotName in input.keys():
-            slot_obj.Value = input[slot_obj.slotName]
-            if not slot_obj.isValid():
-                incorrectSlots.append(slot_obj)
+    def run(self, input=None):
+        slotResponse = {}
+        for slot_obj in self.form.emptySlots:
             text_to_speech(slot_obj.slotQuestion)
             user_text = speech_to_text()
-            retry = 0
-            while retry < self.retryCount:
-                intentAndEntitiesDict = self.nluModule.DiscoverIntentAndEntities(user_text)
-                if not intentAndEntitiesDict["intent"] == basic_intent_types["unknown"]:
-                    slot_val = slot_obj.slotValueExtractor(intentAndEntitiesDict)
-                    if not slot_val == "" and slot_obj.slotValidation(slot_val):
-                        slot_obj.slotValue = slot_val
-                        self.form.fillEmptySlot(slot_obj)
-                        break
-                text_to_speech("Sorry! I did not understand what you just said.")
-                text_to_speech(slot_obj.slotQuestion)
-                user_text = speech_to_text()
-                retry += 1
-            slot_obj = self.form.getNextEmptySlot()
+            slotResponse[slot_obj.slotName] = user_text
+        return slotResponse
 
 # Class for building context by filling the form within a dialog systems
 class fill(dialState):
@@ -136,12 +129,12 @@ class fill(dialState):
         for key in input.keys():
             slotToFill = self.form.getSlotByName(key)
             if not input[key] == "" and not slotToFill is None:
-                newSlot = copy.deepcopy(slotToFill)
-                newSlot.slotValue = input[key]
+                tempSlot = copy.deepcopy(slotToFill)
+                tempSlot.slotValue = input[key]
                 try:
-                    if not newSlot.isValid():
-                        print("\n Invalid value provided for Slot{}, Value:{}".format(newSlot.slotName,newSlot.slotValue))
-                        incorrectSlots.append(newSlot)
+                    if not tempSlot.isValid():
+                        print("\n Invalid value provided for Slot{}, Value:{}".format(tempSlot.slotName,tempSlot.slotValue))
+                        incorrectSlots.append(tempSlot)
                         continue
                 except NotImplementedError:
                     print("\n Slot {} not initialized", slotToFill.slotName)
@@ -175,10 +168,6 @@ class confirm(dialState):
     def run(self, input):
         return NotImplementedError
 
-
-
-
-
 class help(dialState):
     def __init__(self, name, nluModule):
         super().__init__(name, nluModule)
@@ -202,29 +191,40 @@ class repeat(dialState):
             pass
 
 class dialogProcessor:
-    def __init__(self,  startState, stopState, nluModule, stateTable):
+    def __init__(self,  startState, stopState, nluModule, stateTable, stateDict):
         self.start = self.startState
         self.stop = self.stopState
         self.currentState = None
         self.nlu = nluModule
         self.stateTable = stateTable
+        self.stateDict = stateDict
 
     def start(self, input=None):
-
         while not self.currentState is self.stop:
             try:
-                self.currentState, input = self.currentState.transitionFunc(input)
+                intentAndEntitiesDict = self.nluModule.DiscoverIntentAndEntities(user_text)
+                self.currentState, input = self.currentState.run(intentAndEntitiesDict)
+                retry = 0
+                while retry < self.retryCount:
+                    if not intentAndEntitiesDict["intent"] == basic_intent_types["unknown"]:
+                        slot_val = slot_obj.slotValueExtractor(intentAndEntitiesDict)
+                        if not slot_val == "" and slot_obj.slotValidation(slot_val):
+                            slot_obj.slotValue = slot_val
+                            self.form.fillEmptySlot(slot_obj)
+                            break
+                        text_to_speech("Sorry! I did not understand what you just said.")
+                        text_to_speech(slot_obj.slotQuestion)
+                        user_text = speech_to_text()
+                        retry += 1
+                    slot_obj = self.form.getNextEmptySlot()
                 continue
             except:
                 raise Exception("Failure during state transition from state:%s", self.currentState.name)
 
 def CreateWeatherForm():
-    weather_question_slots = [
-        slot("location", "Please tell me the city name you want to know the forecast for", locationValidation,
-             locationExtractor),
-        slot("date_time", "Please also tell me the date and time for which you would like to know the forecast",
-             timeValidation, timeExtractor)]
-    pass
+    slots = [timeSlot(), locationSlot()]
+    weather_form = form(slots)
+    return weather_form
 
 '''
 ------------|
@@ -244,6 +244,7 @@ def InitializeDialogStates():
 
     weather_form = CreateWeatherForm()
     askState = ask("ask", None, weather_form)
+    fillState = fill("fill", None,weather_form)
     confCancel = None
     reportWeather = report("report", None)
     closeState = closure("closure", None)
@@ -251,6 +252,7 @@ def InitializeDialogStates():
 
     stateDict = {DIALOG_STATES.GREET: greetState,
                  DIALOG_STATES.ASK: askState,
+                 DIALOG_STATES.FILL: fillState
                  DIALOG_STATES.CONF_CANCEL:confCancel,
                  DIALOG_STATES.REPORT:reportWeather,
                  DIALOG_STATES.CLOSURE: closeState,
@@ -264,8 +266,8 @@ def InitializeStateTable():
     stateTable[DIALOG_STATES.GREET][INTENT_TYPES.WTH_QU] = DIALOG_STATES.ASK
     stateTable[DIALOG_STATES.GREET][INTENT_TYPES.CLOSE] = DIALOG_STATES.CLOSURE
 
-    stateTable[DIALOG_STATES.ASK][INTENT_TYPES.WTH_QU] = DIALOG_STATES.ASK
-    stateTable[DIALOG_STATES.ASK][INTENT_TYPES.ANS_SLT] = DIALOG_STATES.ASK
+    stateTable[DIALOG_STATES.ASK][INTENT_TYPES.WTH_QU] = DIALOG_STATES.FILL
+    stateTable[DIALOG_STATES.ASK][INTENT_TYPES.ANS_SLT] = DIALOG_STATES.FILL
     stateTable[DIALOG_STATES.ASK][INTENT_TYPES.CLOSE] = DIALOG_STATES.CLOSURE
 
     return stateTable
@@ -279,7 +281,8 @@ if __name__ == "__main__":
     weather_dialog = dialogProcessor(startState=stateDict[DIALOG_STATES.GREET],
                                      stopState=stateDict[DIALOG_STATES.CLOSURE],
                                      nluModule=nlu,
-                                     stateTable=stateTrans)
+                                     stateTable=stateTrans,
+                                     stateDict=stateDict)
     while 1:
         weather_dialog.start()
         response = input("Press Y/y to continue. Any other key to exit :")

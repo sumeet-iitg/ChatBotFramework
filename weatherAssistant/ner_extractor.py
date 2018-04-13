@@ -6,9 +6,9 @@ from nltk.tag.stanford import StanfordNERTagger
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 from sutime import SUTime
+from constants import INTENT_TYPES, GREET_TERMS, CLOSURE_TERMS, WEATHER_TERMS, YES_TERMS, NO_TERMS, TIME_ABRV,DAY_TERMS
+import datetime
 
-
-basic_intent_types = {"greet":0, "weather_query":1, "unknown":3, "closure":4, "cancel":5, "help":6}
 
 class NLUModule:
     def __init__(self, classifier_path=None, ner_path = None, sutime_jar_path = None):
@@ -41,42 +41,89 @@ class NLUModule:
         tokenized_text = word_tokenize(text)
         classified_text = self.st.tag(tokenized_text)
         time_tags = self.su.parse(text)
+        queryDate = None
+        queryTime = None
         # pos_tags = pos_tag(tokenized_text)
 
-        returnVal = {"intent":3, "entities":{"LOCATION":"", "DATE":"", "TIME":"", "DURATION":"", "QUERIES":[]}}
+        detectionResults = {"intent":INTENT_TYPES.UNK, "entities":{"LOCATION":"", "DATE":[], "TIME":[], "DURATION":[], "QUERIES":[]}}
+        returnIntentAndEnt = {"intent":INTENT_TYPES.UNK, "entities":{"LOCATION":"", "DATE":"", "TIME":""}}
 
         for word,tag in classified_text:
             if 'LOCATION' in tag:
-                returnVal["entities"]["LOCATION"] += word + " "
+                detectionResults["entities"]["LOCATION"] += word + " "
             # elif 'DATE' in tag or word in self.date_terms:
-            #     returnVal["entities"]["DATE"] = word + " "
+            #     detectionResults["entities"]["DATE"] = word + " "
             # elif 'DATE' in tag or word in self.day_terms:
-            #     returnVal["entities"]["HOUR"] = word + " "
-            elif 'O' in tag and word in self.weather_terms:
-                returnVal["entities"]["QUERIES"].append(word)
-                returnVal["intent"] = basic_intent_types["weather_query"]
+            #     detectionResults["entities"]["HOUR"] = word + " "
+            elif 'O' in tag and word in WEATHER_TERMS:
+                detectionResults["entities"]["QUERIES"].append(word)
+                detectionResults["intent"] = INTENT_TYPES.WTH_QU
 
         if len(time_tags) > 0:
             for tag in time_tags:
                 typeKey = tag["type"]
-                returnVal["entities"][typeKey] = tag["value"]
+                detectionResults["entities"][typeKey].append(tag["value"])
+            if len(detectionResults["entities"]["DATE"]) > 0:
+                for dateVal in detectionResults["entities"]["DATE"]:
+                    queryDate = dateVal
+                    if 'W' in dateVal:
+                        queryDate = dateVal.replace('W','')
 
-        if text in self.greet_terms:
-                returnVal["intent"] = basic_intent_types["greet"]
-        elif text in self.closure_terms:
-                returnVal["intent"] = basic_intent_types["closure"]
+            if len(detectionResults["entities"]["TIME"]) > 0:
+                for timeVal in detectionResults["entities"]["TIME"]:
+                    timeTokens = timeVal.split('T')
+                    if not queryDate is None:
+                        queryDate = timeTokens[0]
+                    timePart = timeTokens[1]
 
-        if len(returnVal["entities"]["LOCATION"]) > 0 or len(returnVal["entities"]["DATE"]) or len(returnVal["entities"]["DATE"]) > 0:
-            returnVal["intent"] = basic_intent_types["weather_query"]
+                    if timePart in TIME_ABRV.keys():
+                        timePart = DAY_TERMS[TIME_ABRV[timePart]]
+                        # Overwrite the query time with a generic time maps for MO, AF etc.
+                        queryTime = timePart
 
-        return returnVal
+                    #Do not overwrite query time if some time was detected already
+                    if not queryTime is None:
+                        queryTime = timePart
+
+        if detectionResults["intent"] == INTENT_TYPES.UNK:
+            if text in GREET_TERMS:
+                detectionResults["intent"] = INTENT_TYPES.GRT
+            elif text in CLOSURE_TERMS:
+                detectionResults["intent"] = INTENT_TYPES.CLS
+            elif text in YES_TERMS:
+                detectionResults["intent"] = INTENT_TYPES.ANS_YES
+            elif text in NO_TERMS:
+                detectionResults["intent"] = INTENT_TYPES.ANS_NO
+
+        if len(detectionResults["entities"]["LOCATION"]) > 0 or len(detectionResults["entities"]["DATE"]) \
+                or len(detectionResults["entities"]["TIME"]) or len(detectionResults["entities"]["DURATION"]) > 0:
+            detectionResults["intent"] = INTENT_TYPES.ANS_SLT
+
+        returnIntentAndEnt["intent"] = detectionResults["intent"]
+        if not queryDate is None:
+            returnIntentAndEnt["entities"]["DATE"] = queryDate
+        if not queryTime is None:
+            returnIntentAndEnt["entities"]["TIME"] = queryTime
+
+        return returnIntentAndEnt
 
 # nlu = NLUModule()
 # print(nlu.DiscoverIntentAndEntities("How is the weather on Fifth March."))
 # print(nlu.DiscoverIntentAndEntities("How is the weather in March."))
 # print(nlu.DiscoverIntentAndEntities("What is it like on Tuesday."))
 # print(nlu.DiscoverIntentAndEntities("How does it look like tomorrow?"))
-
+# print(nlu.DiscoverIntentAndEntities("What is the weather like next week?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow between 3 to 4pm ?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow afternoon?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow at noon?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow evening?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow morning?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow night?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow at midnight?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow during noon?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like tomorrow around 11:00 in the morning?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like next Tuesday around 11:00 in the morning?"))
+# print(nlu.DiscoverIntentAndEntities("What is it like next Tuesday between 10:00 and 11:00 in the night?"))
 
 # from nltk import word_tokenize, pos_tag, ne_chunk
 #
