@@ -7,8 +7,6 @@ from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 from sutime import SUTime
 from constants import INTENT_TYPES, GREET_TERMS, CLOSURE_TERMS, WEATHER_TERMS, YES_TERMS, NO_TERMS, TIME_ABRV,DAY_TERMS
-import datetime
-
 
 class NLUModule:
     def __init__(self, classifier_path=None, ner_path = None, sutime_jar_path = None):
@@ -38,7 +36,11 @@ class NLUModule:
         self.date_terms = ["today", "tomorrow", "yesterday"]
 
     def DiscoverIntentAndEntities(self, text):
-        tokenized_text = word_tokenize(text)
+        text = text.strip()
+        tokenized_text = text
+        if ' ' in text:
+            tokenized_text = word_tokenize(text)
+
         classified_text = self.st.tag(tokenized_text)
         time_tags = self.su.parse(text)
         queryDate = None
@@ -72,7 +74,7 @@ class NLUModule:
             if len(detectionResults["entities"]["TIME"]) > 0:
                 for timeVal in detectionResults["entities"]["TIME"]:
                     timeTokens = timeVal.split('T')
-                    if not queryDate is None:
+                    if queryDate is None:
                         queryDate = timeTokens[0]
                     timePart = timeTokens[1]
 
@@ -82,7 +84,7 @@ class NLUModule:
                         queryTime = timePart
 
                     #Do not overwrite query time if some time was detected already
-                    if not queryTime is None:
+                    if queryTime is None:
                         queryTime = timePart
 
         if detectionResults["intent"] == INTENT_TYPES.UNK:
@@ -100,6 +102,7 @@ class NLUModule:
             detectionResults["intent"] = INTENT_TYPES.ANS_SLT
 
         returnIntentAndEnt["intent"] = detectionResults["intent"]
+        returnIntentAndEnt["entities"]["LOCATION"] = detectionResults["entities"]["LOCATION"]
         if not queryDate is None:
             returnIntentAndEnt["entities"]["DATE"] = queryDate
         if not queryTime is None:
@@ -108,6 +111,7 @@ class NLUModule:
         return returnIntentAndEnt
 
 # nlu = NLUModule()
+# print(nlu.DiscoverIntentAndEntities("Tomorrow afternoon"))
 # print(nlu.DiscoverIntentAndEntities("How is the weather on Fifth March."))
 # print(nlu.DiscoverIntentAndEntities("How is the weather in March."))
 # print(nlu.DiscoverIntentAndEntities("What is it like on Tuesday."))
